@@ -1,5 +1,10 @@
 # Garden tool cart - OpenSCAD concept
 
+
+## v53 tube-clip geometry
+
+The PETG broom-handle clip root has been rebuilt as one closed 2D profile before extrusion. This removes the gaps and rough boolean transitions between the C-clip, reinforcement triangles and base plate. The 23.5 mm broom-handle dimensions and mounting-hole positions remain unchanged.
+
 Abstract model of the existing garden-tool cart and a first wooden shovel-holder concept.
 
 ## Current model
@@ -179,7 +184,7 @@ Added a deliberately simpler mounting concept for a single 33 × 69 mm timber be
 
 The concept uses only two printed parts:
 
-- **Lower rail insert** – nominally 30 × 26 × 26 mm. It sits inside the 26 mm clear channel of the lower 30 × 30 × 2 mm U-profile and is fixed to the underside of the timber with two countersunk screws.
+- **Lower rail insert** – 28 × 24.8 × 26 mm. The U-profile was measured at **25.0 mm inside width**; the insert uses **0.2 mm total print clearance**, giving a 24.8 mm fit. It is fixed to the underside of the timber with two countersunk screws.
 - **Upper rail saddle** – a larger U-shaped printed part that fits **outside the complete upper steel U-profile**, not inside its groove. Its 9 mm thick bottom fills the difference between the 69 mm timber height and the 78 mm clear rail spacing. Two outer mounting lips are screwed to the top of the timber after the beam is positioned.
 
 New Customizer views:
@@ -267,3 +272,115 @@ The front end of the 33 x 69 mm simple beam now carries a separate snap-fit hold
 
 - Printed mounting width on the 33 mm timber standardized to **28 mm** (lower insert, upper saddle, and tube-clip base).
 - Tube-clip root gussets rebuilt with a broad, fully supported foot to remove the remaining triangular gap.
+
+
+## v48 changes
+
+- Lower U-profile inside width changed from the theoretical profile dimension to the measured **25.0 mm**.
+- Added **0.2 mm total print clearance** for the lower insert.
+- Lower insert fit dimension is therefore **24.8 mm**.
+
+## v49 changes
+
+- Reduced the vertical arms of `simple_holder_upper` along the steel U-profile to 10 mm.
+- The 9 mm spacer bottom between the 33 x 69 mm timber and upper rail is unchanged.
+- Rail clearance, 5 mm wall thickness, mounting lips, fillets and screw geometry are unchanged.
+- Added `simple_holder_saddle_wrap_height = 10` to `config.scad` so this height is explicit and easy to tune.
+
+
+
+## v51
+
+- Lengthened the tube-clip mounting base from 58 mm to 66 mm.
+- Moved the two countersunk screw centres farther outward, from 40 mm to 48 mm centre-to-centre, so the screw heads stay clear of the clip reinforcement.
+- Reduced the root-gusset size from 2.5 mm to 2.0 mm and shortened its footprint slightly.
+- Kept the 18 mm mounting width, 23.5 mm broom-handle diameter and 2.5 mm PETG clip wall unchanged.
+
+
+## v53 change
+
+The tube clip now has a solid central web beneath the lower arc. This closes the remaining pockets between the C-clip, side reinforcements and mounting base while keeping the circular broom-handle bore clear.
+
+### v55 tube-clip mounting geometry
+
+The broom-handle clip mounting plate is now dimensioned from the actual clip and screw geometry rather than by visual trial-and-error. With a 24.0 mm inner diameter and 2.5 mm wall, the clip outer radius is 14.5 mm. The root reinforcement extends only 0.8 mm beyond that radius, the two Ø9 mm countersunk screw heads are placed at ±20 mm, and the base length is reduced to 56 mm. This keeps the diagonal reinforcement close to the clip while leaving the screw heads accessible.
+
+### v56 – standalone component files
+
+The files in `components/` are now deliberately usable on their own in OpenSCAD.
+Each component file exposes practical standalone parameters at the top for the
+Customizer and contains a top-level preview/render call at the bottom.
+
+For example, opening `components/tube_clip.scad` directly now immediately shows
+the tube clip and exposes its broom-handle, clip, base and screw dimensions in
+the Customizer. The same principle is applied throughout `components/`,
+including the U-profile, timber, base plate, upright and mounting parts.
+
+Assemblies continue to load components with `use <...>`. OpenSCAD therefore
+imports the component modules without executing their standalone top-level
+preview geometry, so these preview calls do not create duplicate parts in the
+complete model.
+
+## v57 – PETG tube clip tuning
+
+- Measured broom-handle diameter changed to **22.5 mm**.
+- The PETG clip now uses **0.3 mm interference**, giving a nominal **22.2 mm bore**.
+- Clip wall thickness increased to **4 mm**.
+- Base thickness changed to **4 mm** and base length to **50 mm**.
+- Screw centres moved 2 mm per side towards the clip: **36 mm centre-to-centre**.
+- Added a small configurable underside print relief around both screw holes.
+- Added explicit Customizer controls for the diagonal transition: `gusset_base_from_center` and `gusset_height`.
+- Standalone `tube_clip.scad` uses `$fn = 96` for a smoother preview/render.
+
+
+### Tube clip coordinate reference
+
+The tube clip is symmetric. The centre of the clip and the centre of its base plate share the same zero reference. `gusset_base_from_center` is measured from that centre line to the outer foot of each gusset. `clip_leadin_height` is measured vertically from the narrowest point of the opening to the top of the flared entry; `clip_leadin_angle` is measured outward from vertical.
+
+
+### v61
+- Fixed the tube-clip lead-in so the subtractive opening always reaches beyond the physical top of the clip. This removes the detached cap/"roof" visible in v59.
+
+### Tube clip standalone view
+
+Open `components/tube_clip.scad` directly in OpenSCAD. The Customizer now has a `view` selector:
+
+- `clip` — shows only the printable clip.
+- `clip_with_tube` — additionally shows a preview cylinder using `tube_diameter`, centred in the clip bore.
+
+`clip_width` is the extrusion width of the C-shaped clip (the X direction through the 18 mm multiplex thickness). It is not the snap opening; `clip_opening` is the gap between the two clip arms in the front view.
+
+
+### v62 – fixed tube-clip baseline and two-holder cart view
+
+The tested PETG tube-clip settings are now the project defaults: 22.5 mm measured broom-handle diameter, 0.5 mm interference, 4 mm clip wall and base thickness, 18.5 mm opening, 25° lead-in, 10 mm gusset base reference, 8 mm gusset height, 50 mm base length, 38 mm screw spacing and a 6 × 0.2 mm underside print relief.
+
+The full `all` view now places two simple 74 × 18 mm multiplex-strip holders mirrored around the cart centre. `show_broom_handle` is a Customizer checkbox (off by default) that adds a Ø22.5 mm broom handle through both clips. Because the visual handle uses the measured diameter while the clip bore is 0.5 mm smaller, the handle intentionally intersects the clip slightly in the model to represent the PETG interference fit.
+
+
+## v63
+
+- Changed the simple-holder multiplex strip from **75 × 18 mm** to **74 × 18 mm**.
+- With the regular **78 mm** free rail spacing, the upper printed spacer is now automatically **4 mm** thick.
+- Updated the standalone upper-saddle preview to use the same 4 mm spacer thickness.
+
+
+### v64 – Upper saddle print relief
+
+The `simple_holder_upper` screw holes now have a shallow cylindrical print relief on the face opposite the countersinks. The default relief is Ø6.0 mm × 0.2 mm and is configurable independently from the countersink dimensions.
+
+## v65
+
+- `simple_holder_upper`: the complete horizontal base is now 4 mm thick.
+- The 4 mm base is also the spacer between the 74 mm multiplex strip and the upper U-profile; no extra lip thickness is added.
+
+
+
+## Upper saddle variants
+
+The upper rail saddle now has two fit variants for variation between cart arms:
+
+- `upper_4mm`: standard 4 mm thickness between the multiplex strip and steel U-rail.
+- `upper_3mm`: the mounting base/lips remain 4 mm, but the local seat directly under the steel U-rail is 3 mm.
+
+Open `components/rail_beam_mount.scad` directly and choose the required variant in the Customizer. The main model also provides `simple_holder_upper` and `simple_holder_upper_3mm` views.

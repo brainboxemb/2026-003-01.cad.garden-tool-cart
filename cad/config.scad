@@ -128,7 +128,7 @@ holder_color = "Peru";
 screw_color  = "DimGray";
 
 // Display
-$fn = 48;
+$fn = 96;
 
 // Pocket-hole test / Kreg R3 reference geometry
 // Kreg R3 guide centres: 7/8 inch = 22.225 mm.
@@ -147,31 +147,37 @@ pocket_screw_length          = 32;
 // through the arm into that member rather than backwards out of the joint.
 holder_arm_joint_pocket_back = 18;
 
-// Simple 33 x 69 beam holder between two consecutive U-profiles
-// The 69 mm timber height plus the 9 mm printed top spacer equals the
+// Simple 74 x 18 multiplex-strip holder between two consecutive U-profiles
+// The 74 mm strip height plus the 4 mm printed top spacer equals the
 // regular 78 mm free gap between profiles.
-simple_holder_beam_width   = 33;   // X, across the rack
-simple_holder_beam_height  = 69;   // Z, vertical between rails
+simple_holder_beam_width   = 18;   // X, multiplex thickness / across the rack
+simple_holder_beam_height  = 74;   // Z, multiplex strip height between rails
 simple_holder_beam_length  = 300;  // Y, projection from rack; easy to tune
 simple_holder_rear_overlap = 20;   // timber continues a little behind rail centreline
-simple_holder_top_gap      = u_gap - simple_holder_beam_height; // 9 mm with current rack
+simple_holder_top_gap      = u_gap - simple_holder_beam_height; // 4 mm with current rack
 
-// Lower printed insert: nominal 26 x 26 x 30 mm, fitted in the 26 mm clear
-// width of the 30 x 30 x 2 mm steel U-profile.
-simple_holder_mount_width = 28;   // printed parts on 33 mm timber; leaves ~2.5 mm per side
+// Lower printed insert. The actual measured inside width of the steel U-profile
+// is 25.0 mm. Keep 0.2 mm total print clearance, so the insert is 24.8 mm.
+simple_holder_mount_width = 18;   // printed parts match the 18 mm multiplex thickness
+simple_holder_u_inner_width = 25;
+simple_holder_insert_clearance = 0.2; // total clearance, not per side
 simple_holder_lower_insert_x = simple_holder_mount_width;
-simple_holder_lower_insert_y = u_width - 2 * u_wall; // 26
-simple_holder_lower_insert_z = 26;
-simple_holder_lower_screw_spacing = 14;
+simple_holder_lower_insert_y = simple_holder_u_inner_width - simple_holder_insert_clearance; // 24.8
+simple_holder_lower_insert_z = 10;
+simple_holder_lower_screw_spacing = 12; // along Y; suits the narrow 18 mm part
 
 // Upper printed saddle: U-shaped part OUTSIDE the full upper rail.
 simple_holder_saddle_clearance = 0.6;
 simple_holder_saddle_wall      = 5;
+simple_holder_saddle_wrap_height = 10; // printed side arms extend only 10 mm up along the steel U-rail
 simple_holder_lip_depth        = 16;
-simple_holder_lip_thickness    = 5;
+simple_holder_lip_thickness    = 4; // mounting base/lips remain 4 mm thick
+simple_holder_saddle_bottom_alt  = 3; // alternative rail seat: 3 mm only directly under the steel U-profile
 // Saddle fillets: subtle inside the U; larger at the U-leg -> side-lip transition.
 simple_holder_saddle_inner_fillet = 1.2;
 simple_holder_saddle_outer_fillet = 3;
+simple_holder_saddle_bottom_relief_diameter = 6.0;
+simple_holder_saddle_bottom_relief_depth    = 0.2; // non-countersunk face
 
 // Printed-part screw holes
 simple_holder_screw_diameter      = 4.25; // clearance for 4 mm countersunk wood screw
@@ -180,27 +186,32 @@ simple_holder_screw_head_height   = 3.2;
 
 // Full-cart placement. Uses two consecutive profiles.
 simple_holder_cart_upper_profile_index = 2;
-simple_holder_cart_x = 275;
+simple_holder_cart_x = 275; // left holder centre; second holder is mirrored around cart centre
 
 // Standalone preview
 simple_holder_profile_preview_length = 180;
 simple_holder_print_color = "Orange";
 
-// Snap-fit tube holder on the front end of the simple 33 x 69 beam.
-// Intended for PETG and a nominal 18 mm round handle pushed in from above.
-tube_clip_tube_diameter       = 18;
-tube_clip_clearance           = 0.5;   // inner diameter becomes 18.5 mm
-tube_clip_width               = 20;    // width of flexible clip along tube axis
-tube_clip_wall                = 2.5;
-tube_clip_opening             = 14.5;  // narrower than tube for snap retention
+// Snap-fit tube holder on the front end of the 74 x 18 multiplex strip.
+// Intended for PETG and a nominal 23.5 mm broom handle pushed in from above.
+tube_clip_tube_diameter       = 22.5;
+tube_clip_interference        = 0.5;   // clip bore = 22.0 mm for positive PETG grip
+tube_clip_width               = simple_holder_mount_width; // 18 mm, same as multiplex thickness
+tube_clip_wall                = 4;
+tube_clip_opening             = 18.5;
 tube_clip_base_width          = simple_holder_mount_width;
-tube_clip_base_length         = 58;
-tube_clip_base_thickness      = 5;
+tube_clip_base_length         = 50;
+tube_clip_base_thickness      = 4;
 tube_clip_screw_diameter      = 4.25;  // for 4 mm countersunk wood screws
 tube_clip_screw_head_diameter = 9;
 tube_clip_screw_head_height   = 3.2;
-tube_clip_screw_spacing       = 40;
-tube_clip_leadin              = 5.0;   // stronger tapered snap-in lead-in at both tips
-tube_clip_root_fillet         = 2.5;   // compact root gusset size
-// Place the holder near the front end, leaving a small timber margin.
+tube_clip_screw_spacing       = 38;
+tube_clip_screw_bottom_relief_diameter = 6.0;
+tube_clip_screw_bottom_relief_depth    = 0.2; // shallow first-layer relief on underside
+tube_clip_leadin_height       = 10.0;  // vertical height from narrowest opening upward to top of flared entry
+tube_clip_leadin_angle        = 25;    // flare angle outward from vertical; larger = wider top opening
+// Symmetry reference: centre of clip == centre of base plate == 0.
+tube_clip_gusset_base_from_center = 10.0; // distance from centre to outer foot of each gusset
+tube_clip_gusset_height       = 8.0;   // height above base top where diagonal meets clip
 tube_clip_end_margin          = 5;
+broom_handle_color            = "Sienna";
