@@ -19,11 +19,11 @@ lower_screw_spacing = 12;
 /* [Upper saddle] */
 rail_depth = 30;
 rail_height = 30;
-saddle_clearance = 0.6;
+saddle_clearance = 0.1; // clearance per side around the 30 mm steel U-profile
 saddle_wall = 5;
 saddle_bottom = 4;
 saddle_bottom_alt = 3; // alternative: only the area directly under the steel U-rail is 3 mm
-saddle_wrap_height = 10;
+saddle_wrap_height = 20;
 saddle_lip_depth = 16;
 saddle_lip_thickness = 4;
 saddle_inner_fillet = 1.2;

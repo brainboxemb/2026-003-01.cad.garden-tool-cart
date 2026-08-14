@@ -13,9 +13,10 @@ use <assemblies/shovel_holder.scad>
 use <components/u_profile.scad>
 use <assemblies/pocket_test.scad>
 use <assemblies/simple_beam_holder.scad>
+use <assemblies/tool_bin.scad>
 
 // Main model selection in the OpenSCAD Customizer.
-view = "all"; // [ "all", "cart", "u_profile", "shovel_holder", "holder_on_profile", "simple_beam_holder", "simple_holder_lower", "simple_holder_upper", "simple_holder_upper_3mm", "tube_clip", "pocket_90", "pocket_45", "pocket_55" ]
+view = "all"; // [ "all", "cart", "u_profile", "shovel_holder", "holder_on_profile", "simple_beam_holder", "simple_holder_lower", "simple_holder_upper", "simple_holder_upper_3mm", "tube_clip", "tool_bin", "pocket_90", "pocket_45", "pocket_55" ]
 
 // Secondary view mode.
 subview = "assembled"; // [ "assembled", "exploded" ]
@@ -70,6 +71,13 @@ module simple_holder_on_cart(x_position = simple_holder_cart_x, exploded = false
             simple_beam_holder(false, exploded);
 }
 
+
+// Place the plywood tool bin on one side of the cart base.
+module tool_bin_on_cart(exploded = false) {
+    translate([tool_bin_cart_x, tool_bin_cart_y, base_thickness])
+        tool_bin(true, exploded);
+}
+
 // Broom handle shared by the two simple holders in the full-cart view.
 // Both holders are mirrored around the cart centre. The cylinder runs along X
 // and spans the full clip width at both ends, so the 22.5 mm visual handle
@@ -117,6 +125,8 @@ if (view == "all") {
 
     if (show_broom_handle)
         broom_handle_between_simple_holders();
+
+    tool_bin_on_cart(exploded);
 }
 else if (view == "cart") {
     cart_frame();
@@ -145,6 +155,9 @@ else if (view == "simple_holder_upper_3mm") {
 }
 else if (view == "tube_clip") {
     simple_beam_holder_tube_clip_part();
+}
+else if (view == "tool_bin") {
+    tool_bin(true, exploded);
 }
 else if (view == "pocket_90") {
     pocket_joint_test(90, exploded, show_guides);

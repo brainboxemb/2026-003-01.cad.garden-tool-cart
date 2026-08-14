@@ -167,9 +167,9 @@ simple_holder_lower_insert_z = 10;
 simple_holder_lower_screw_spacing = 12; // along Y; suits the narrow 18 mm part
 
 // Upper printed saddle: U-shaped part OUTSIDE the full upper rail.
-simple_holder_saddle_clearance = 0.6;
+simple_holder_saddle_clearance = 0.1; // 0.1 mm per side; 1.0 mm less total play than the previous 0.6 mm/side
 simple_holder_saddle_wall      = 5;
-simple_holder_saddle_wrap_height = 10; // printed side arms extend only 10 mm up along the steel U-rail
+simple_holder_saddle_wrap_height = 20; // printed side arms extend 20 mm up along the steel U-rail
 simple_holder_lip_depth        = 16;
 simple_holder_lip_thickness    = 4; // mounting base/lips remain 4 mm thick
 simple_holder_saddle_bottom_alt  = 3; // alternative rail seat: 3 mm only directly under the steel U-profile
@@ -215,3 +215,47 @@ tube_clip_gusset_base_from_center = 10.0; // distance from centre to outer foot 
 tube_clip_gusset_height       = 8.0;   // height above base top where diagonal meets clip
 tube_clip_end_margin          = 5;
 broom_handle_color            = "Sienna";
+
+// Tool bin - full-width 18 mm underlayment / multiplex construction.
+// The rear edge is derived from the front face of the U-profile rack,
+// leaving a configurable clearance so the bin cannot intersect the rail.
+tool_bin_width             = base_width; // X, full outside width of cart
+tool_bin_rail_clearance    = 10;         // Y clearance in front of first U-profile
+tool_bin_cart_front_margin = 25;         // Y margin from front edge of base
+tool_bin_u_profile_front_y = (base_depth - upright_depth) / 2
+                           + (upright_depth - u_width) / 2;
+tool_bin_depth             = tool_bin_u_profile_front_y
+                           - tool_bin_cart_front_margin
+                           - tool_bin_rail_clearance; // 260 mm with current cart dimensions
+
+// All box panels are now the same 18 mm sheet material.
+tool_bin_panel_thickness  = 18;
+tool_bin_bottom_thickness = tool_bin_panel_thickness; // compatibility / documentation alias
+tool_bin_wall_thickness   = tool_bin_panel_thickness; // compatibility / documentation alias
+tool_bin_wall_height      = 220;
+
+// Black conventional countersunk wood screws.
+tool_bin_screw_diameter      = 4;
+tool_bin_screw_length        = 40;
+tool_bin_screw_head_diameter = 8;
+tool_bin_screw_head_height   = 3;
+tool_bin_corner_screw_height = 110; // one visible screw per outside corner
+
+// Bottom screws are driven upward from the underside.
+tool_bin_bottom_screw_edge_offset = 45;
+tool_bin_bottom_screw_x_positions = [100, tool_bin_width/2, tool_bin_width - 100];
+
+// Placement on the cart base. The bin spans the full cart width.
+tool_bin_cart_x = 0;
+tool_bin_cart_y = tool_bin_cart_front_margin;
+
+tool_bin_bottom_color = "BurlyWood";
+tool_bin_wall_color   = "Wheat";
+tool_bin_screw_color  = "Black";
+tool_bin_batten_color = "Peru";
+
+// Tool-bin exploded-view offsets. Panels move away from the assembled box in
+// their actual assembly directions; screw heads follow their parent panels.
+tool_bin_exploded_end    = 70; // left/right end panels, X direction
+tool_bin_exploded_long   = 70; // front/rear long panels, Y direction
+tool_bin_exploded_bottom = 55; // bottom panel, downward Z direction

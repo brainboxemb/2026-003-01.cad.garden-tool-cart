@@ -384,3 +384,39 @@ The upper rail saddle now has two fit variants for variation between cart arms:
 - `upper_3mm`: the mounting base/lips remain 4 mm, but the local seat directly under the steel U-rail is 3 mm.
 
 Open `components/rail_beam_mount.scad` directly and choose the required variant in the Customizer. The main model also provides `simple_holder_upper` and `simple_holder_upper_3mm` views.
+
+
+### v67 – tighter upper saddle fit
+
+- Reduced the upper-saddle rail cavity by 1.0 mm overall: clearance changed from 0.6 mm per side to 0.1 mm per side (31.2 mm to 30.2 mm internal depth around a 30 mm rail).
+- Increased the upper-saddle wrap height along the steel U-profile from 10 mm to 20 mm.
+- The 4 mm and 3 mm rail-seat variants remain unchanged.
+
+## v69 – plywood tool bin concept
+
+Added a first parametric tool bin on one side of the cart.
+
+Construction concept:
+
+- full-size **18 mm multiplex bottom**;
+- **18 mm underlayment / multiplex side walls** standing on top of the bottom plate;
+- **20 × 20 mm internal panel joints** for reinforcement;
+- conventional countersunk wood screws from the **outside** through the 9 mm walls and into the panel joints;
+- no pocket holes;
+- the bin has a dedicated `tool_bin` view and is also shown in the complete `all` view.
+
+The initial bin dimensions are deliberately configurable in `config.scad` (`260 × 300 mm`, 220 mm wall height) so the footprint and height can be tuned once the intended tools are checked against the cart.
+
+
+## v69 tool bin placement
+
+The tool bin now spans the full 880 mm cart width. Its depth is derived from the front face of the U-profile rack and leaves 10 mm clearance, preventing the rear wall from intersecting the rail.
+
+
+### Tool bin construction (v70)
+
+The tool bin is now built entirely from 18 mm underlayment/multiplex. The two long panels run across the full width, the end panels fit between them, and the previous internal corner battens have been removed. Black 4 x 40 mm countersunk screws are used for the visible corner fixings; the bottom is screwed upward from underneath so those screw heads are hidden in normal use.
+
+### v71 – tool-bin exploded view
+
+The tool-bin exploded view now follows the actual assembly directions: the bottom moves downward, the long panels move forward/rearward, and the end panels move left/right. Screws stay with the panel containing their heads, making the construction sequence easier to read.
